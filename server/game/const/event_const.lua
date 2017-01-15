@@ -1,0 +1,24 @@
+
+local M = {
+  CHECK_MINE = 1,
+  RETURN = 2,
+  BUILDING = 3,
+  TRAIN_ARMY = 4,
+  WAR = 5,
+  RETURN_ARMY = 6,
+  MONSTER = 7,
+  COLLECT_RESOURCE = 8,
+  COLLECTING_RESOURCE = 9,
+  BUILD_CAMP = 10,
+
+  TRAIN_EVENT_TYPE        = 1,
+  BUILDING_EVENT_TYPE     = 2,
+  CURE_EVENT_TYPE         = 3,
+  RESEARCH_EVENT_TYPE     = 4,
+  HELP_EVENT_TYPE         = 5,
+  WILD_MARCH_EVENT_TYPE   = 6,
+}
+
+EventConst = M
+
+return  M

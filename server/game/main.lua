@@ -39,4 +39,45 @@ skynet.start(function()
 	skynet.call('data_cache', 'lua', 'start', {cache_pool_size = system_config.cache_pool_size})
 
 	skynet.uniqueservice("webcat")
+
+	--local watchdog = skynet.newservice("watchdog")
+
+	local server_info_mgrd = skynet.uniqueservice("server_info_mgrd")
+    skynet.call(server_info_mgrd, "lua", 'serverd', 'start')
+
+    local uniond = skynet.uniqueservice("uniond")
+    skynet.call(uniond, 'lua', 'uniond', "start")
+
+	--[[ 
+    local maild = skynet.uniqueservice("maild")
+    skynet.call(maild, 'lua', 'maild', "start")
+
+    local rankd = skynet.uniqueservice("rank")
+    skynet.call(rankd, "lua", 'start')
+
+    local wildd = skynet.uniqueservice("wildd")
+    skynet.call(wildd, 'lua', 'wildd', "start")
+
+    local chat = skynet.uniqueservice("chat")
+    skynet.call(chat, 'lua', 'start')
+
+    local eventd = skynet.uniqueservice("eventd")
+    skynet.call(eventd, 'lua', 'eventd', "start")
+
+    local console = skynet.newservice("console")
+    skynet.newservice("debug_console",ip_config.debugconsole_port)
+--]]
+skynet.call("watchdog", "lua", "start_gate", {
+        port = ip_config.game_port,
+        max_client = max_client,
+        nodelay = true,
+    })
+
+skynet.send(uniond, "lua", "union", "on_server_start")
+skynet.call(wildd, "lua", "map", "on_server_start")
+
+log.w('[main] server has been started. exit the main.lua.')
+skynet.exit()
+
+
 end)

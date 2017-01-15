@@ -1,0 +1,30 @@
+local M = {
+  NORMAL = 1,
+  CHECK_TIME = 2,
+  RELOAD_DATA  = 3,
+  INVALID_ORDER  = 4,
+  USE_PASSPORT_LOGIN  = 5,
+  RELOGIN  = 6,
+  INVALID_PASSWORD  = 7,
+  NOT_ENOUGH_GEMS  = 8,
+  CONCURRENT  = 9,
+  CHANGE_ACCOUNT  = 10,
+  DOWNLOAD_NEW_APP  = 11,
+  CLEAN_CITY_PROTECT  = 12,
+  COUNTRY_ERROR_CODE = 15,
+  BIG_RELOGIN = 17,
+  VIP_LEVEL_ERROR = 18,
+  ERROR = {
+    normal = 298,
+    refresh = 299
+  },
+  VALID_ORDER = 20,
+  CONNECT_APPLE_ERROR = 21,
+  RELOGIN_ERROR_KEY = 'relogin',
+  RELOAD_ERROR_KEY = 'version_not_match',
+  RES_VERSION_NOT_MATCH = 22,
+}
+
+ErrorConst = M
+
+return  M

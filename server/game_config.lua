@@ -9,7 +9,7 @@ bootstrap = "snlua bootstrap"
 lua_path = skynet_root .. "lualib/?.lua" ..
 		   ";" .. root .. "../common/?.lua" ..
 		   ";" .. root .. "config/?.lua" ..
-
+ 		   ";" .. root .. "config/locale/?.lua;"..
 		   ";" .. root .. "lualib/?.lua" ..
 		   ";" .. root .. "lualib/db/?.lua" ..
 		   ";" .. root .. "lualib/util/?.lua" ..

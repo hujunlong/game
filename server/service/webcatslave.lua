@@ -49,3 +49,60 @@ local function parse_path(path, id, code)
 
 	return f
 end
+
+skynet.start(function()
+	skynet.dispatch("lua", function (_,_,id)
+		socket.start(id)
+		-- limit request body size to 8192 (you can pass nil to unlimit)
+		local code, url, method, header, body = httpd.read_request(sockethelper.readfunc(id), 8192)
+		log.i('url = ', url)
+		if code then
+			if code ~= 200 then
+				response(id, code)
+			else
+				local path, query = urllib.parse(url, id)
+
+				local f = parse_path(path, id, code)
+				if f then
+					log.i(string.format("[webcatslave] http request:"))
+					local request = {}
+					request.header = header
+					request.body = body
+					request.path = path
+					request._query = query
+					request._body = body
+					if query then
+						request.query = urllib.parse_query(query)
+						local body_query = urllib.parse_query(body)
+						if body_query then 
+							for k,v in pairs(body_query) do
+								request.query[k] = v
+							end
+						end
+					end
+
+					local function resp(t)
+						if type(t) == 'string' then
+							response(id, code, t)
+						elseif type(t) == 'table' then
+							response(id, code, json.encode(t))
+						else
+							log.e(false, "invalid")
+							assert(false)
+						end
+					end
+
+					log.dr(request)
+					f(request, resp)
+				end
+			end
+		else
+			if url == sockethelper.socket_error then
+				skynet.error("socket closed")
+			else
+				skynet.error(url)
+			end
+		end
+		socket.close(id)
+	end)
+end)
